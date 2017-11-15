@@ -9,7 +9,7 @@
 
 ;; ========================================================================== ;;
 
-(defun do-generate-password (numchars)
+(defun generate-password (numchars)
   (let (result
         (rndstring (make-array '(0) :element-type 'base-char :fill-pointer 0 :adjustable t)))
     (with-open-file (urandom-file "/dev/urandom" :direction :input :element-type '(unsigned-byte 8))
