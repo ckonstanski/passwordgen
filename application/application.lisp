@@ -10,6 +10,8 @@
 ;; ========================================================================== ;;
 
 (defun generate-password (numchars)
+  "Pass in `nil' for the full base64 string not limited to a set
+number of characters."
   (let (result
         (rndstring (make-array '(0) :element-type 'base-char :fill-pointer 0 :adjustable t)))
     (with-open-file (urandom-file "/dev/urandom" :direction :input :element-type '(unsigned-byte 8))
@@ -23,4 +25,6 @@
     (let ((digest (ironclad:make-digest 'ironclad:sha512)))
       (ironclad:update-digest digest (ironclad:hex-string-to-byte-array rndstring))
       (setf result (cl-base64:usb8-array-to-base64-string (ironclad:produce-digest digest))))
-    (subseq result 0 (if (> numchars 80) 80 numchars))))
+    (if (not numchars)
+        numchars
+        (subseq result 0 (if (> numchars 80) 80 numchars)))))
