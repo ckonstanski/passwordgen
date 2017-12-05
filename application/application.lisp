@@ -26,5 +26,5 @@ number of characters."
       (ironclad:update-digest digest (ironclad:hex-string-to-byte-array rndstring))
       (setf result (cl-base64:usb8-array-to-base64-string (ironclad:produce-digest digest))))
     (if (not numchars)
-        numchars
+        result
         (subseq result 0 (if (> numchars 80) 80 numchars)))))
